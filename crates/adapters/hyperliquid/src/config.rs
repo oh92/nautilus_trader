@@ -102,6 +102,10 @@ pub struct HyperliquidExecClientConfig {
     pub private_key: Option<String>,
     /// Optional vault address for vault operations.
     pub vault_address: Option<String>,
+    /// Optional main account address when using an agent wallet (API sub-key).
+    /// When set, used for balance queries, position reports, and WS subscriptions
+    /// instead of the address derived from the private key.
+    pub account_address: Option<String>,
     /// Override for the WebSocket URL.
     pub base_url_ws: Option<String>,
     /// Override for the HTTP info URL.
@@ -138,6 +142,7 @@ impl Default for HyperliquidExecClientConfig {
         Self {
             private_key: None,
             vault_address: None,
+            account_address: None,
             base_url_ws: None,
             base_url_http: None,
             base_url_exchange: None,

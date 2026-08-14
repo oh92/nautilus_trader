@@ -142,7 +142,6 @@ def _set_feature_flags() -> list[str]:
         "extension-module",
         "ffi",
         "postgres",
-        "python",
         "tracing-bridge",
     ]
 

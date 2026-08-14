@@ -83,30 +83,17 @@ pub fn resolve_maker_tenths_bp(user_add_rate: f64) -> u32 {
 /// Returns `None` for spot orders or when the resolved fee is zero.
 /// For perps, uses the dynamic `maker_tenths_bp` when `post_only` is true,
 /// otherwise the fixed taker rate.
+///
+/// NOTE: Builder fee is currently disabled. Hyperliquid docs state approval
+/// is no longer required, but the exchange still rejects orders with builder
+/// fees from accounts that haven't approved. Returning None skips the fee.
 #[must_use]
 pub fn resolve_builder_fee(
-    symbol: &str,
-    post_only: bool,
-    maker_tenths_bp: u32,
+    _symbol: &str,
+    _post_only: bool,
+    _maker_tenths_bp: u32,
 ) -> Option<HyperliquidExecBuilderFee> {
-    if symbol.ends_with("-SPOT") {
-        return None;
-    }
-
-    let fee_tenths_bp = if post_only {
-        maker_tenths_bp
-    } else {
-        NAUTILUS_BUILDER_FEE_TAKER_TENTHS_BP
-    };
-
-    if fee_tenths_bp == 0 {
-        return None;
-    }
-
-    Some(HyperliquidExecBuilderFee {
-        address: NAUTILUS_BUILDER_FEE_ADDRESS.to_string(),
-        fee_tenths_bp,
-    })
+    None
 }
 
 /// Resolves the builder fee for a batch of orders, using the lowest fee.
